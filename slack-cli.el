@@ -4,7 +4,7 @@
   (let ((channel (completing-read "Select channel" slack-cli-channels))
 	(message (read-string "Your message: "))
 	)
-    (start-process-shell-command "slack-cli" "*slack-cli*" (concat "slack-cli -d " channel " \"" message "\""))))
+    (start-process-shell-command "slack-cli" (concat "*slack-cli:" channel "*") (concat "slack-cli -d " channel " \"" message "\""))))
 
 (defun slack-cli-retrieve ()
   "Retrieve slack messages"
@@ -21,7 +21,7 @@
   (interactive)
   (let* ((channel (completing-read "Select channel" slack-cli-channels))
 	 (buffer-name (concat "*slack-cli:" channel "*")))
-    (start-process (concat "slack-cli:" channel) buffer-name "slack-cli" "-s" "bot-test-channel")
+    (start-process (concat "slack-cli:" channel) buffer-name "slack-cli" "-s" channel)
     (set-process-filter (get-buffer-process buffer-name) 'slack-cli-process-output)
     (switch-to-buffer buffer-name)))
 
