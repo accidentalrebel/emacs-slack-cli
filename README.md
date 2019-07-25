@@ -37,4 +37,6 @@ This project has a lot of missing features and I will try to improve it whenever
 
   * Add checker if `slack-cli-channels` is set beforehand
   * Ability to reply to the channel from the channel's buffer
+  * Don't allow to edit the channel buffers.
+  * Text color highlights
   * Upload to Melpa
