@@ -1,7 +1,7 @@
 (defun slack-cli-send ()
   "Sends slack message"
   (interactive)
-  (let ((channel (completing-read "Select channel" (list "bot-test-channel" "chefwars_dev" "chefwars_art")))
+  (let ((channel (completing-read "Select channel" slack-cli-channels))
 	(message (read-string "Your message: "))
 	)
     (start-process-shell-command "slack-cli" "*slack-cli*" (concat "slack-cli -d " channel " \"" message "\""))))
@@ -9,7 +9,7 @@
 (defun slack-cli-retrieve ()
   "Retrieve slack messages"
   (interactive)
-  (let* ((channel (completing-read "Select channel" (list "bot-test-channel" "chefwars_dev" "chefwars_art")))
+  (let* ((channel (completing-read "Select channel" slack-cli-channels))
 	 (num (read-string "Num to retrieve (default: 10): " nil nil "10"))
 	 (buffer-name (concat "*slack-cli:" channel "*"))
 	 (retrieved (shell-command-to-string (concat "slack-cli -s " channel " -l " num))))
@@ -19,7 +19,7 @@
 (defun slack-cli-listen ()
   "Listen continuously for slack messages"
   (interactive)
-  (let* ((channel (completing-read "Select channel" (list "bot-test-channel" "chefwars_dev" "chefwars_art")))
+  (let* ((channel (completing-read "Select channel" slack-cli-channels))
 	 (buffer-name (concat "*slack-cli:" channel "*")))
     (start-process (concat "slack-cli:" channel) buffer-name "slack-cli" "-s" "bot-test-channel")
     (set-process-filter (get-buffer-process buffer-name) 'slack-cli-process-output)
