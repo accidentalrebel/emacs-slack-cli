@@ -1,4 +1,12 @@
-(define-derived-mode slack-cli-mode special-mode "slack-cli-mode")
+(setq slack-cli--highlights
+      '(("^\\[" . font-lock-function-name-face)
+	("] [^ ]*: " . font-lock-function-name-face)
+	("@[^ ]*" . font-lock-builtin-face)))
+
+(define-derived-mode slack-cli-mode fundamental-mode "slack-cli-mode"
+  "Major mode for slack-cli mode."
+  (read-only-mode 1)
+  (setq font-lock-defaults '(slack-cli--highlights)))
 
 (defun slack-cli-mode--setup-keys ()
   "Initial config for setting of keys."
@@ -68,3 +76,4 @@
 
 (defun slack-cli--get-channel-name-of-buffer ()
     (car (last (split-string (replace-regexp-in-string "\*" "" (buffer-name)) ":"))))
+
