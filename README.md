@@ -37,4 +37,5 @@ This project has a lot of missing features and I will try to improve it whenever
 
   * Add checker if `slack-cli-channels` is set beforehand
   * Allow retrieving from all channels
+  * Allow setting of default number of lines to display
   * Upload to Melpa
