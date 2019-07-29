@@ -23,8 +23,7 @@
 	 (message (read-string (concat "Send message to " channel ": ")))
 	 (buffer-name (concat "*slack-cli:" channel "*")))
     (switch-to-buffer buffer-name)
-    (when (shell-command-to-string (concat "slack-cli -d " channel " \"" message "\""))
-      (slack-cli--refresh-buffer))))
+    (start-process-shell-command "slack-cli" nil (concat "slack-cli -d " channel " \"" message "\""))))
 
 (defun slack-cli-retrieve (&optional _channel _retrieve-count)
   "Retrieve slack messages"
@@ -46,7 +45,7 @@
   (interactive)
   (let* ((channel (completing-read "Select channel" slack-cli-channels))
 	 (buffer-name (concat "*slack-cli:" channel "*")))
-    (start-process (concat "slack-cli:" channel) nil "slack-cli" "-s" channel)
+    (start-process (concat "slack-cli:" channel) buffer-name "slack-cli" "-s" channel)
     (set-process-filter (get-buffer-process buffer-name) 'slack-cli-process-output)
     (switch-to-buffer buffer-name)
     (slack-cli--refresh-buffer)))
@@ -54,9 +53,8 @@
 (defun slack-cli-process-output(proc string)
   "Custom process filter to handle specific charaters."
   (let ((inhibit-read-only 1))
-    (goto-char (process-mark proc))
-    (insert (ansi-color-apply string))
-    (set-marker (process-mark proc) (point))))
+    (goto-char (point-max))
+    (insert (ansi-color-apply string))))
 
 (defun slack-cli-reply-on-buffer()
   "Replies to the slack buffer."
