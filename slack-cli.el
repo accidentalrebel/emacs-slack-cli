@@ -56,9 +56,13 @@
 
 (defun slack-cli-process-output(proc string)
   "Custom process filter to handle specific charaters."
-  (let ((inhibit-read-only 1))
+  (let ((inhibit-read-only 1)
+	(current-buffer-name (buffer-name))
+	(target-buffer-name (concat "*" (process-name proc) "*")))
+    (switch-to-buffer target-buffer-name)
     (goto-char (point-max))
-    (insert (ansi-color-apply string))))
+    (insert (ansi-color-apply string))
+    (switch-to-buffer current-buffer-name)))
 
 (defun slack-cli-reply-on-buffer()
   "Replies to the slack buffer."
@@ -76,4 +80,3 @@
 
 (defun slack-cli--get-channel-name-of-buffer ()
     (car (last (split-string (replace-regexp-in-string "\*" "" (buffer-name)) ":"))))
-
