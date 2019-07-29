@@ -2,16 +2,12 @@
 
 (defun slack-cli-mode--setup-keys ()
   "Initial config for setting of keys."
-  (local-set-key (kbd "r") 'slack-cli-reply-on-buffer))
+  (local-set-key (kbd "r") 'slack-cli-reply-on-buffer)
+  (local-set-key (kbd "g") (lambda ()
+			     (interactive)
+			     (slack-cli--refresh-buffer))))
 
 (add-hook 'slack-cli-mode-hook 'slack-cli-mode--setup-keys)
-
-(defun slack-cli--refresh-buffer ()
-  "Refreshes the channel buffer with the latest details"
-  (let (( inhibit-read-only 1))
-    (erase-buffer)
-    (slack-cli-mode)
-    (slack-cli-retrieve channel "10")))
 
 (defun slack-cli-send (&optional _channel)
   "Sends slack message"
@@ -59,6 +55,16 @@
 (defun slack-cli-reply-on-buffer()
   "Replies to the slack buffer."
   (interactive)
-  (let ((channel (car (last (split-string (replace-regexp-in-string "\*" "" (buffer-name)) ":")))))
+  (let ((channel (slack-cli--get-channel-name-of-buffer)))
     (slack-cli-send channel)))
 
+(defun slack-cli--refresh-buffer ()
+  "Refreshes the channel buffer with the latest details"
+  (let (( inhibit-read-only 1)
+	(buffer (slack-cli--get-channel-name-of-buffer)))
+    (erase-buffer)
+    (slack-cli-mode)
+    (slack-cli-retrieve buffer  "10")))
+
+(defun slack-cli--get-channel-name-of-buffer ()
+    (car (last (split-string (replace-regexp-in-string "\*" "" (buffer-name)) ":"))))
