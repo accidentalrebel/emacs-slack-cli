@@ -36,7 +36,6 @@ This project has a lot of missing features and I will try to improve it whenever
 ## To Do ##
 
   * Add checker if `slack-cli-channels` is set beforehand
-  * Don't allow to edit the channel buffers.
   * Allow retrieving from all channels
   * Text color highlights
   * Upload to Melpa
