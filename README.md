@@ -23,11 +23,14 @@ From your configuration file, update and evaluate the line below:
 ## Usage ##
 Here are the available functions:
 
-`slack-cli-listen` - Connects to a channel and waits for messages
+  * `slack-cli-listen` - Connects to a channel and waits for messages
+  * `slack-cli-send` - Allows sending of a message to a specific channel
+  * `slack-cli-retrieve` - Retrieves a certain amount of messages from a specific channel
 
-`slack-cli-send` - Allows sending of a message to a specific channel
+Here are the default keybindings:
 
-`slack-cli-retrieve` - Retrieves a certain amount of messages from a specific channel
+  * Press `r` while on a slack-cli buffer to send a reply to the current channel
+  * Press `g` while on a slack-cli buffer to retrieve and refresh the latest messages
 
 ## Contributions ##
 
